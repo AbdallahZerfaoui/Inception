@@ -16,15 +16,24 @@
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
+# --- Color Definitions ---
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[0;36m'
+NC='\033[0m' # No Color (reset)
+
 # --- 1. System Update and Upgrade ---
-echo "### Step 1: Updating and Upgrading System Packages... ###"
+echo -e "${CYAN}### Step 1: Updating and Upgrading System Packages... ###${NC}"
 apt-get update
 apt-get upgrade -y
-echo "### System Updated Successfully. ###"
+apt-get install -y
+apt-get clean
+
+echo -e "${GREEN}### System Updated Successfully. ###${NC}"
 echo
 
 # --- 2. Install Essential Utilities ---
-echo "### Step 2: Installing Core Utilities (sudo, git, curl, make, ufw)... ###"
+echo -e "${CYAN}### Step 2: Installing Core Utilities (sudo, git, curl, make, ufw)... ###${NC}"
 apt-get install -y \
     sudo \
     git \
@@ -33,12 +42,12 @@ apt-get install -y \
     make \
     ufw \
     nano
-echo "### Core Utilities Installed Successfully. ###"
+echo -e "${GREEN}### Core Utilities Installed Successfully. ###${NC}"
 echo
 
 # --- 3. Install Docker and Docker Compose ---
 # This follows the official Docker installation guide for Debian.
-echo "### Step 3: Installing Docker and Docker Compose... ###"
+echo -e "${CYAN}### Step 3: Installing Docker and Docker Compose... ###${NC}"
 
 # Add Docker's official GPG key
 install -m 0755 -d /etc/apt/keyrings
@@ -46,7 +55,7 @@ curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/doc
 chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources
-echo \
+echo -e "${CYAN}"
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -59,11 +68,11 @@ apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin do
 
 # Verify Docker installation by running the hello-world image
 docker run hello-world
-echo "### Docker and Docker Compose Installed Successfully. ###"
+echo -e "${GREEN}### Docker and Docker Compose Installed Successfully. ###${NC}"
 echo
 
 # --- 4. Configure Firewall (UFW) ---
-echo "### Step 4: Configuring Firewall (UFW)... ###"
+echo -e "${CYAN}### Step 4: Configuring Firewall (UFW)... ###${NC}"
 
 # Allow SSH connections (so you don't lock yourself out)
 ufw allow OpenSSH
@@ -78,7 +87,7 @@ yes | ufw enable
 
 # Display the status of the firewall
 ufw status verbose
-echo "### Firewall Configured and Enabled. ###"
+echo -e "${GREEN}### Firewall Configured and Enabled. ###${NC}"
 echo
 
 # --- Final Message ---
