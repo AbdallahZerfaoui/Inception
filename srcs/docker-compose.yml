@@ -1,0 +1,8 @@
+services:
+    nginx:
+      container_name: nginx
+      image: nginx
+      build:
+        context: requirements/nginx
+      ports:
+        - "80:80"
