@@ -1,0 +1,26 @@
+services:
+    nginx:
+      container_name: nginx
+      image: nginx
+      build:
+        context: requirements/nginx
+      ports:
+        - "80:80"
+      volumes:
+        - wp_data:/var/www/html
+
+    wordpress:
+      container_name: wordpress
+      image: wordpress
+      build:
+        context: requirements/wordpress
+      volumes:
+        - wp_data:/var/www/html
+    
+volumes:
+  wp_data:
+    driver: local
+    driver_opts:
+      type: bind # if None, it will ignore the next options
+      device: /home/abdallah/myProjects/42Projects/Inception/data
+      o: bind
