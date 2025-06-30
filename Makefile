@@ -5,12 +5,15 @@ CYAN=\033[0;36m
 NC=\033[0m
 
 #Volumes 
-WP_DATA=inception_wp_data
+WP_DATA=/home/abdallah/data/wp_data
 
 
 all : up
 
 build:
+	@echo "${GREEN}Let's create the needed folders...${NC}"
+	@mkdir -p $(WP_DATA)
+	@echo "${GREEN}Building the Docker containers...${NC}"
 	docker compose -f inception/docker-compose.yml build
 
 up: build
