@@ -9,5 +9,9 @@ up: build
 down:
 	docker compose -f srcs/docker-compose.yml down
 
-prune:
+prune: 
 	@docker system prune -a --volumes -f
+
+clean: down prune
+
+.PHONY: all build up down prune clean

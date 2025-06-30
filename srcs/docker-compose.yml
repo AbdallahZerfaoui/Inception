@@ -6,3 +6,9 @@ services:
         context: requirements/nginx
       ports:
         - "80:80"
+
+    wordpress:
+      container_name: wordpress
+      image: wordpress
+      build:
+        context: requirements/wordpress
