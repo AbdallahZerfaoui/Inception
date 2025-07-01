@@ -6,6 +6,7 @@ NC=\033[0m
 
 #Volumes 
 WP_DATA=/home/abdallah/data/wp_data
+DATABASE=/home/abdallah/data/database
 
 
 all : up
@@ -13,6 +14,7 @@ all : up
 build:
 	@echo "${GREEN}Let's create the needed folders...${NC}"
 	@mkdir -p $(WP_DATA)
+	@mkdir -p $(DATABASE)
 	@echo "${GREEN}Building the Docker containers...${NC}"
 	docker compose -f inception/docker-compose.yml build
 

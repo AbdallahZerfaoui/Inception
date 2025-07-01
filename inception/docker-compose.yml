@@ -8,6 +8,8 @@ services:
         - "80:80"
       volumes:
         - wp_data:/var/www/html
+      networks:
+        - net
 
     wordpress:
       container_name: wordpress
@@ -16,17 +18,34 @@ services:
         context: requirements/wordpress
       volumes:
         - wp_data:/var/www/html
+      networks:
+        - net
     
     mariadb:
       container_name: mariadb
       image: mariadb
       build:
         context: requirements/mariadb
+      networks:
+        - net
+      volumes:
+        - database:/var/lib/mysql
     
+networks:
+  net:
+    driver: bridge
+
 volumes:
   wp_data:
     driver: local
     driver_opts:
       type: bind # if None, it will ignore the next options
       device: /home/abdallah/data/wp_data
+      o: bind
+      
+  database:
+    driver: local
+    driver_opts:
+      type: bind # if None, it will ignore the next options
+      device: /home/abdallah/data/database
       o: bind
