@@ -16,20 +16,26 @@ services:
       image: wordpress
       build:
         context: requirements/wordpress
+      env_file:
+        - .env
       volumes:
         - wp_data:/var/www/html
       networks:
         - inception
+      restart: always
     
     mariadb:
       container_name: mariadb
       image: mariadb
       build:
         context: requirements/mariadb
+      env_file:
+        - .env
       volumes:
         - database:/var/lib/mysql
       networks:
         - inception
+      restart: always
     
 networks:
   inception:

@@ -4,3 +4,4 @@ secrets/
 
 # Files
 generate_secrets.sh
+.env
