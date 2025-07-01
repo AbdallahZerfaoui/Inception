@@ -7,5 +7,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     && apt-get clean
 
 COPY config/www.conf /etc/php/8.2/fpm/pool.d/www.conf
+COPY config/init_wp.sh .
 
-CMD ["php-fpm8.2", "-F"]
+RUN chmod +x init_wp.sh
+
+CMD ["./init_wp.sh"]
