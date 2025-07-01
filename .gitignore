@@ -1,5 +1,6 @@
 # Folders
-docs/
 data/
+secrets/
 
 # Files
+generate_secrets.sh
