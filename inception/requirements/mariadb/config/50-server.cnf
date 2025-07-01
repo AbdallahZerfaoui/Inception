@@ -26,6 +26,7 @@ tmpdir                  = /tmp
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
 bind-address            = mariadb
+port                    = 3306
 
 #
 # * Fine Tuning

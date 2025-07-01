@@ -42,7 +42,7 @@ volumes:
       type: bind # if None, it will ignore the next options
       device: /home/abdallah/data/wp_data
       o: bind
-      
+
   database:
     driver: local
     driver_opts:
