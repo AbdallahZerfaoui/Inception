@@ -1,7 +1,9 @@
-FROM debian:bookworm
+FROM debian:bookworm-slim
 
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     php-fpm \
+    php-mysql \
+    curl \
     && apt-get clean
 
 COPY config/www.conf /etc/php/8.2/fpm/pool.d/www.conf
