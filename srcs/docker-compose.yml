@@ -5,11 +5,11 @@ services:
       build:
         context: requirements/nginx
       ports:
-        - "80:80"
+        - "443:443"
       volumes:
         - wp_data:/var/www/html
       networks:
-        - net
+        - inception
 
     wordpress:
       container_name: wordpress
@@ -18,8 +18,10 @@ services:
         context: requirements/wordpress
       volumes:
         - wp_data:/var/www/html
+      depends:
+        - mariadb
       networks:
-        - net
+        - inception
     
     mariadb:
       container_name: mariadb
@@ -27,12 +29,12 @@ services:
       build:
         context: requirements/mariadb
       networks:
-        - net
+        - inception
       volumes:
         - database:/var/lib/mysql
     
 networks:
-  net:
+  inception:
     driver: bridge
 
 volumes:
