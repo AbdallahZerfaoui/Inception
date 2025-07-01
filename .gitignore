@@ -2,3 +2,5 @@
 docs/
 data/
 
+# Files 
+init_db.sh

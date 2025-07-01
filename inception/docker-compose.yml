@@ -17,6 +17,12 @@ services:
       volumes:
         - wp_data:/var/www/html
     
+    mariadb:
+      container_name: mariadb
+      image: mariadb
+      build:
+        context: requirements/mariadb
+    
 volumes:
   wp_data:
     driver: local
