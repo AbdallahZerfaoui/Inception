@@ -24,6 +24,9 @@ up: build
 down:
 	docker compose -f srcs/docker-compose.yml down
 
+deep_down:
+	docker compose -f srcs/docker-compose.yml down --volumes
+
 prune: 
 	@docker system prune -a --volumes -f
 
@@ -34,6 +37,10 @@ remove_volumes:
 clean: down prune remove_volumes
 	@echo "${GREEN}All containers and volumes have been removed.${NC}"
 
+fclean deep_down prune remove_volumes:
+	@echo "${GREEN}All containers, volumes, and images have been removed.${NC}"
+
+
 re:
 	@echo "${CYAN}This will remove all containers, volumes, and images.${NC}"
 	@echo "${CYAN}The building process will take longer than usual and cannot be undone.${NC}"
@@ -41,10 +48,10 @@ re:
 	@read -p "" CONFIRM; \
 	if [ "$$CONFIRM" = "yes" ]; then \
 		echo "${GREEN}Confirmation received. Proceeding...${NC}"; \
-		$(MAKE) clean; \
+		$(MAKE) fclean; \
 		$(MAKE) up; \
 	else \
 		echo "${RED}Operation cancelled.${NC}"; \
 	fi
 
-.PHONY: all build up down prune clean
+.PHONY: all build up down prune clean fclean deep_down remove_volumes

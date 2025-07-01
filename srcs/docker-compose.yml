@@ -1,4 +1,17 @@
 services:
+    mariadb:
+      container_name: mariadb
+      image: mariadb
+      build:
+        context: requirements/mariadb
+      env_file:
+        - .env
+      volumes:
+        - database:/var/lib/mysql
+      networks:
+        - inception
+      restart: always
+
     nginx:
       container_name: nginx
       image: nginx
@@ -23,20 +36,7 @@ services:
       networks:
         - inception
       restart: always
-    
-    mariadb:
-      container_name: mariadb
-      image: mariadb
-      build:
-        context: requirements/mariadb
-      env_file:
-        - .env
-      volumes:
-        - database:/var/lib/mysql
-      networks:
-        - inception
-      restart: always
-    
+      
 networks:
   inception:
     driver: bridge
