@@ -8,6 +8,9 @@ NC=\033[0m
 WP_DATA=/home/abdallah/data/wp_data
 DATABASE=/home/abdallah/data/database
 
+# Paths
+COMPOSE_FILE=srcs/docker-compose.yml
+
 
 all : up
 
@@ -24,8 +27,8 @@ up: build
 down:
 	docker compose -f srcs/docker-compose.yml down
 
-deep_down:
-	docker compose -f srcs/docker-compose.yml down --volumes
+# deep_down:
+# 	docker compose -f srcs/docker-compose.yml down --volumes
 
 prune: 
 	@docker system prune -a --volumes -f
@@ -37,9 +40,22 @@ remove_volumes:
 clean: down prune remove_volumes
 	@echo "${GREEN}All containers and volumes have been removed.${NC}"
 
-fclean deep_down prune remove_volumes:
-	@echo "${GREEN}All containers, volumes, and images have been removed.${NC}"
+fclean:
+	@echo "${RED}Removing containers AND data volumes for this project...${NC}"
+	@docker compose -f $(COMPOSE_FILE) down --volumes --remove-orphans
 
+purge:
+	@echo "${CYAN}This will remove all containers, volumes, and images.${NC}"
+	@echo "${CYAN}The building process will take longer than usual and cannot be undone.${NC}"
+	@echo "${CYAN}Are you sure? (type 'yes' to confirm):${NC}"
+	@read -p "" CONFIRM; \
+	if [ "$$CONFIRM" = "yes" ]; then \
+		echo "${GREEN}Confirmation received. Proceeding...${NC}"; \
+		$(MAKE) fclean; \
+		$(MAKE) prune; \
+	else \
+		echo "${RED}Operation cancelled.${NC}"; \
+	fi
 
 re:
 	@echo "${CYAN}This will remove all containers, volumes, and images.${NC}"
@@ -48,7 +64,7 @@ re:
 	@read -p "" CONFIRM; \
 	if [ "$$CONFIRM" = "yes" ]; then \
 		echo "${GREEN}Confirmation received. Proceeding...${NC}"; \
-		$(MAKE) fclean; \
+		$(MAKE) clean; \
 		$(MAKE) up; \
 	else \
 		echo "${RED}Operation cancelled.${NC}"; \

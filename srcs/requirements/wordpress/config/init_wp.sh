@@ -12,13 +12,13 @@ until mysqladmin ping -h "${MYSQL_DB_HOST}" -u root --password="${MYSQL_ROOT_PAS
     sleep 1
 done
 
+echo -e "${CYAN}MariaDB is ready. Proceeding with WordPress setup...${NC}"
+
 # Main script starts here
 cd /var/www/html
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
-
-
-echo -e "${CYAN}MariaDB is ready. Proceeding with WordPress setup...${NC}"
+mv wp-cli.phar /usr/local/bin/wp
 
 # Check that the admin user does not contain forbidden substrings
 if echo "${WORDPRESS_ADMIN_USER}" | grep -i -qE "admin|administrator"; then
@@ -26,7 +26,7 @@ if echo "${WORDPRESS_ADMIN_USER}" | grep -i -qE "admin|administrator"; then
     exit 1
 fi
 
-./wp-cli.phar core download --allow-root
+# ./wp-cli.phar core download --allow-root
 
 
 # ./wp-cli.phar config create \
@@ -45,7 +45,7 @@ fi
 #                 --allow-root
 if [ ! -f /var/www/html/wp-config.php ]; then
     echo -e "${CYAN}Creating wp-config.php...${NC}"
-    ./wp-cli.phar config create --path=/var/www/html \
+    wp config create --path=/var/www/html \
         --dbname="${MYSQL_DATABASE}" \
         --dbuser="${MYSQL_USER}" \
         --dbpass="${MYSQL_PASSWORD}" \
@@ -56,9 +56,9 @@ else
 fi
 
 
-if ! ./wp-cli.phar core is-installed --path=/var/www/html --allow-root; then
+if ! wp core is-installed --path=/var/www/html --allow-root; then
     echo -e "${CYAN}Installing WordPress...${NC}"
-    ./wp-cli.phar core install --path=/var/www/html \
+    wp core install --path=/var/www/html \
         --url=https://${DOMAIN_NAME} \
         --title="${WORDPRESS_TITLE}" \
         --admin_user="${WORDPRESS_ADMIN_USER}" \
@@ -67,7 +67,7 @@ if ! ./wp-cli.phar core is-installed --path=/var/www/html --allow-root; then
         --skip-email --allow-root
 
     echo "Creating a regular user..."
-    ./wp-cli.phar user create "${WORDPRESS_USER}" "${WORDPRESS_USER_EMAIL}" \
+    wp user create "${WORDPRESS_USER}" "${WORDPRESS_USER_EMAIL}" \
         --user_pass="${WORDPRESS_USER_PASSWORD}" --role=subscriber \
         --path=/var/www/html --allow-root
 
