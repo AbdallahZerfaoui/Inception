@@ -58,7 +58,8 @@ fi
 
 if ! wp core is-installed --path=/var/www/html --allow-root; then
     echo -e "${CYAN}Installing WordPress...${NC}"
-    # ./wp-cli.phar core download --allow-root #TODO: check if this is needed
+    ./download_wp.sh
+    ./handle_wp_cli.sh
     wp core install --path=/var/www/html \
         --url=http://${DOMAIN_NAME} \
         --title="${WORDPRESS_TITLE}" \
@@ -76,3 +77,5 @@ if ! wp core is-installed --path=/var/www/html --allow-root; then
 else
     echo -e "${CYAN}WordPress is already installed. Skipping setup.${NC}"
 fi
+
+php-fpm7.4 --nodaemonize

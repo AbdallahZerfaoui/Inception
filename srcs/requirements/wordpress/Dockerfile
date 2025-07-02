@@ -10,10 +10,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     && apt-get clean
 
 COPY config/www.conf /etc/php/7.4/fpm/pool.d/www.conf
-COPY config/download_wp.sh .
-COPY config/handle_wp-cli.sh .
-COPY config/init_wp.sh .
-COPY config/run.sh .
+COPY config/*.sh .
 
 # chown -R www-data:www-data /run/php: 
 # Sets the owner of that directory to the www-data user 
@@ -21,6 +18,6 @@ COPY config/run.sh .
 RUN mkdir -p /run/php && chown -R www-data:www-data /run/php
 
 # Ensure the scripts are executable
-RUN chmod +x init_wp.sh download_wp.sh handle_wp-cli.sh run.sh
+RUN chmod +x download_wp.sh handle_wp-cli.sh init_wp.sh
 
-CMD ["./run.sh"]
+CMD ["./init_wp.sh"]
