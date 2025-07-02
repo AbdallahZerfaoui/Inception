@@ -20,6 +20,10 @@ if echo "${WORDPRESS_ADMIN_USER}" | grep -i -qE "admin|administrator"; then
     exit 1
 fi
 
+# Download WordPress if it does not exist
+echo -e "${CYAN}Downloading WordPress...${NC}"
+./download_wp.sh
+
 # Create the wp-cli configuration file
 ./handle_wp-cli.sh
 
@@ -39,7 +43,6 @@ fi
 # Install WordPress if it is not already installed
 if ! wp core is-installed --path=/var/www/html --allow-root; then
     echo -e "${CYAN}Installing WordPress...${NC}"
-    ./download_wp.sh
     wp core install --path=/var/www/html \
         --url=http://${DOMAIN_NAME} \
         --title="${WORDPRESS_TITLE}" \

@@ -20,6 +20,4 @@ RUN mkdir -p /run/php && chown -R www-data:www-data /run/php
 # Ensure the scripts are executable
 RUN chmod +x download_wp.sh handle_wp-cli.sh init_wp.sh
 
-WORKDIR /var/www/html
-
 CMD ["./init_wp.sh"]
