@@ -2,6 +2,12 @@
 
 DB_DIR="/var/lib/mysql"
 
+# Check that the admin user does not contain forbidden substrings
+if echo "${MYSQL_ADMIN_USER}" | grep -i -qE "admin|administrator"; then
+    echo -e "${RED}Error: MYSQL_ADMIN_USER contains forbidden substrings (admin, administrator).${NC}"
+    exit 1
+fi
+
 if [ ! -d "$DB_DIR/mysql" ]; then
     echo "Initializing MariaDB data directory..."
     mariadb-install-db --user=mysql --basedir=/usr --datadir="$DB_DIR"

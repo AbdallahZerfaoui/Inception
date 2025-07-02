@@ -15,6 +15,9 @@ DATABASE=/home/azerfaou/data/database
 # Paths
 COMPOSE_CMD = docker compose -f srcs/docker-compose.yml
 
+# Others
+s ?= wordpress
+
 # ==============================================================================
 # Help & Default Target
 # ==============================================================================
@@ -60,6 +63,16 @@ help: ## Show this detailed help message
 	@echo "                          It runs 'purge' (deleting ALL project data and Docker cache) and then 'up'."
 	@echo "                          \033[1mUse this if you want to start from a truly clean slate. All data will be lost.\033[0m"
 	@echo ""
+	@echo " \033[1mDebugging & Interaction Targets:\033[0m"
+	@echo "   \033[0;36mlogs\033[0m                   Follow the real-time logs of a running service."
+	@echo "                          You can specify which service's logs to view."
+	@echo "                          \033[1mUsage:\033[0m make logs s=<service_name>  \033[2m(e.g., make logs s=mariadb)\033[0m"
+	@echo "                          \033[2m(Defaults to 'wordpress' if 's' is not provided)\033[0m"
+	@echo ""
+	@echo "   \033[0;36mshell\033[0m                  Access an interactive bash shell inside a running service."
+	@echo "                          This is essential for debugging, running commands, or inspecting files."
+	@echo "                          \033[1mUsage:\033[0m make shell s=<service_name> \033[2m(e.g., make shell s=nginx)\033[0m"
+	@echo "                          \033[2m(Defaults to 'wordpress' if 's' is not provided)\033[0m"
 # ==============================================================================
 # Main Targets
 # ==============================================================================
@@ -142,6 +155,17 @@ re-fresh: ## [DESTRUCTIVE] Purge ALL data and caches, then rebuild the project
 	else \
 		echo "${RED}Operation cancelled.${NC}"; \
 	fi
+
+# ==============================================================================
+# Debugging & Interaction Targets
+# ==============================================================================
+logs: ## Show logs for all services
+	@echo "$(CYAN)Displaying logs for service $(s)...$(NC)"
+	@$(COMPOSE_CMD) logs -f $(s)
+
+bash: ## Open a bash in the specified service container
+	@echo "$(CYAN)Opening a bash in the $(s) container...$(NC)"
+	@$(COMPOSE_CMD) exec -it $(s) bash
 
 # art:
 # 	@echo "IIIIIIIIIINNNNNNNN        NNNNNNNN        CCCCCCCCCCCCCEEEEEEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPPPP   TTTTTTTTTTTTTTTTTTTTTTTIIIIIIIIII     OOOOOOOOO     NNNNNNNN        NNNNNNNN"
