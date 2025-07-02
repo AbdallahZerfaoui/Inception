@@ -13,10 +13,10 @@ This list is ordered to help you check your project systematically. Start with t
     - [x] The `Makefile` specifically uses `docker-compose.yml` to build the images and run the services (e.g., `docker-compose up --build`).
     - [ ] A rule to take down the services is also present (e.g., `make down` or `make fclean`).
 ### **File Structure**: The project follows the specified directory structure:
-    - [ ] A `srcs` folder is at the root.
-    - [ ] `srcs/` contains `docker-compose.yml` and the `.env` file.
-    - [ ] `srcs/` contains a `requirements` directory.
-    - [ ] `srcs/requirements/` contains a separate directory for each service (`nginx`, `mariadb`, `wordpress`).
+    - [x] A `srcs` folder is at the root.
+    - [x] `srcs/` contains `docker-compose.yml` and the `.env` file.
+    - [x] `srcs/` contains a `requirements` directory.
+    - [x] `srcs/requirements/` contains a separate directory for each service (`nginx`, `mariadb`, `wordpress`).
     - [x] Each service directory (e.g., `srcs/requirements/nginx/`) contains its own `Dockerfile`.
 
 
@@ -34,9 +34,9 @@ This list is ordered to help you check your project systematically. Start with t
     - [x] A custom Docker bridge network is defined in `docker-compose.yml` and used by all containers to communicate.
     - [x] The use of `network: host` or the `links:` directive is **forbidden**.
 ### **Volumes**:
-    - [ ] A dedicated volume is used for the MariaDB database files to ensure data persistence.
+    - [x] A dedicated volume is used for the MariaDB database files to ensure data persistence.
     - [x] A dedicated volume is used for the WordPress website files (`/var/www/html`) to ensure data persistence.
-    - [ ] The volumes are correctly mapped to `/home/login/data/` on the host VM (where `login` is your 42 login).
+    - [x] The volumes are correctly mapped to `/home/login/data/` on the host VM (where `login` is your 42 login).
 
 
 ### Tier 3: Security & Best Practices (Crucial Details)
@@ -44,9 +44,9 @@ This list is ordered to help you check your project systematically. Start with t
 ### **Environment Variables**:
     - [ ] **No passwords** or sensitive data are hardcoded in any `Dockerfile`.
     - [ ] All secrets (database passwords, usernames, etc.) are passed to the containers using environment variables.
-    - [ ] A `.env` file at the root of the `srcs` directory is used to store these variables.
+    - [x] A `.env` file at the root of the `srcs` directory is used to store these variables.
 ### **Container Persistence**:
-    - [ ] Containers are configured to restart automatically on crash (e.g., `restart: unless-stopped` in `docker-compose.yml`).
+    - [x] Containers are configured to restart automatically on crash (e.g., `restart: unless-stopped` in `docker-compose.yml`).
     - [ ] **Forbidden Hacks**: Containers are kept running by their main process (daemon), **NOT** by hacky commands like `tail -f /dev/null`, `sleep infinity`, or `while true`. This is a critical point.
 ### **Entrypoint**:
     - [ ] The NGINX container is the **only** container with a mapped port. It is the sole entrypoint to the infrastructure.
@@ -66,12 +66,12 @@ This list is ordered to help you check your project systematically. Start with t
     - [ ] Forwards PHP requests to the WordPress container on port 9000.
     - [x] Does **not** contain WordPress or `php-fpm` itself.
 ### **WordPress Container**:
-    - [ ] Contains WordPress files and `php-fpm`.
+    - [x] Contains WordPress files and `php-fpm`.
     - [ ] Is configured to listen for requests from NGINX on port 9000.
     - [ ] Is configured to connect to the MariaDB container using the service name (e.g., `mariadb:3306`).
-    - [ ] Does **not** contain Nginx.
+    - [x] Does **not** contain Nginx.
 ### **MariaDB Container**:
     - [ ] A database is properly set up for WordPress.
     - [ ] At least **two** users are created in the database: one administrator and one other user.
     - [ ] The administrator's username does **not** contain `admin` or `administrator` (case-insensitive).
-    - [ ] Does **not** contain Nginx or WordPress.
+    - [x] Does **not** contain Nginx or WordPress.
