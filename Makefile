@@ -140,7 +140,9 @@ re-fresh: ## [DESTRUCTIVE] Purge ALL data and caches, then rebuild the project
 	@read -p "" CONFIRM; \
 	if [ "$$CONFIRM" = "yes" ]; then \
 		echo "${GREEN}Confirmation received. Proceeding...${NC}"; \
-		$(MAKE) purge; \
+		$(MAKE) clean; \
+		$(MAKE) prune; \
+		$(MAKE) delete_persistent_data; \
 		$(MAKE) up; \
 	else \
 		echo "${RED}Operation cancelled.${NC}"; \
