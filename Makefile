@@ -14,7 +14,6 @@ DATABASE=/home/abdallah/data/database
 
 # Paths
 COMPOSE_CMD = docker compose -f srcs/docker-compose.yml
-# COMPOSE_FILE=srcs/docker-compose.yml
 
 # ==============================================================================
 # Help & Default Target
@@ -47,6 +46,9 @@ help: ## Show this detailed help message
 	@echo "   \033[0;36mre\033[0m                     A developer's shortcut to 'rebuild'. It fully tears down the project stack"
 	@echo "                          (via 'clean') and then starts it again from scratch (via 'up'). Useful for applying"
 	@echo "                          changes that require a full reset of the containers."
+	@echo ""
+	@echo "   \033[0;36mrestart\033[0m                Stops and then restarts all services."
+	@echo "                          Perfect for applying configuration changes from docker-compose.yml without a full rebuild."
 	@echo ""
 	@echo "   \033[0;31mpurge\033[0m                  \033[1m[DESTRUCTIVE]\033[0m The most powerful cleaning command. It performs a 'clean' and then:"
 	@echo "                           1. \033[1mPermanently deletes all project data\033[0m from the host machine ($(WP_DATA_PATH), etc)."
@@ -88,20 +90,9 @@ clean: ## Stop services and remove containers, networks, and volumes
 prune: ## Remove unused Docker data
 	@docker system prune -a --volumes -f
 
-# remove_volumes:
-# 	@docker volume rm $(WP_DATA) || true
-# 	@echo "${GREEN}Volume ${WP_DATA} has been removed.${NC}"
-# 	@docker volume rm $(DATABASE) || true
-# 	@echo "${GREEN}Volume ${DATABASE} has been removed.${NC}"
-
 delete_persistent_data:
 	@rm -rf $(WP_DATA) || true
 	@rm -rf $(DATABASE) || true
-
-
-# fclean:
-# 	@echo "${RED}Removing containers AND data volumes for this project...${NC}"
-# 	@$(COMPOSE_CMD) down --volumes --remove-orphans
 
 purge:
 	@echo "${CYAN}This will remove all containers, volumes, and images.${NC}"
@@ -133,6 +124,10 @@ re:
 		echo "${RED}Operation cancelled.${NC}"; \
 	fi
 
+restart: ## Stop and restart the services to apply compose file changes
+	@$(MAKE) down
+	@$(MAKE) up
+
 re-fresh: ## [DESTRUCTIVE] Purge ALL data and caches, then rebuild the project
 	@echo "${CYAN}This will remove all containers, volumes, and images.${NC}"
 	@echo "${CYAN}The building process will take longer than usual and cannot be undone.${NC}"
@@ -147,5 +142,23 @@ re-fresh: ## [DESTRUCTIVE] Purge ALL data and caches, then rebuild the project
 	else \
 		echo "${RED}Operation cancelled.${NC}"; \
 	fi
+
+# art:
+# 	@echo "IIIIIIIIIINNNNNNNN        NNNNNNNN        CCCCCCCCCCCCCEEEEEEEEEEEEEEEEEEEEEEPPPPPPPPPPPPPPPPP   TTTTTTTTTTTTTTTTTTTTTTTIIIIIIIIII     OOOOOOOOO     NNNNNNNN        NNNNNNNN"
+# 	@echo "I::::::::IN:::::::N       N::::::N     CCC::::::::::::CE::::::::::::::::::::EP::::::::::::::::P  T:::::::::::::::::::::TI::::::::I   OO:::::::::OO   N:::::::N       N::::::N"
+# 	@echo "I::::::::IN::::::::N      N::::::N   CC:::::::::::::::CE::::::::::::::::::::EP::::::PPPPPP:::::P T:::::::::::::::::::::TI::::::::I OO:::::::::::::OO N::::::::N      N::::::N"
+# 	@echo "II::::::IIN:::::::::N     N::::::N  C:::::CCCCCCCC::::CEE::::::EEEEEEEEE::::EPP:::::P     P:::::PT:::::TT:::::::TT:::::TII::::::IIO:::::::OOO:::::::ON:::::::::N     N::::::N"
+# 	@echo "  I::::I  N::::::::::N    N::::::N C:::::C       CCCCCC  E:::::E       EEEEEE  P::::P     P:::::PTTTTTT  T:::::T  TTTTTT  I::::I  O::::::O   O::::::ON::::::::::N    N::::::N"
+# 	@echo "  I::::I  N:::::::::::N   N::::::NC:::::C                E:::::E               P::::P     P:::::P        T:::::T          I::::I  O:::::O     O:::::ON:::::::::::N   N::::::N"
+# 	@echo "  I::::I  N:::::::N::::N  N::::::NC:::::C                E::::::EEEEEEEEEE     P::::PPPPPP:::::P         T:::::T          I::::I  O:::::O     O:::::ON:::::::N::::N  N::::::N"
+# 	@echo "  I::::I  N::::::N N::::N N::::::NC:::::C                E:::::::::::::::E     P:::::::::::::PP          T:::::T          I::::I  O:::::O     O:::::ON::::::N N::::N N::::::N"
+# 	@echo "  I::::I  N::::::N  N::::N:::::::NC:::::C                E:::::::::::::::E     P::::PPPPPPPPP            T:::::T          I::::I  O:::::O     O:::::ON::::::N  N::::N:::::::N"
+# 	@echo "  I::::I  N::::::N   N:::::::::::NC:::::C                E::::::EEEEEEEEEE     P::::P                    T:::::T          I::::I  O:::::O     O:::::ON::::::N   N:::::::::::N"
+# 	@echo "  I::::I  N::::::N    N::::::::::NC:::::C                E:::::E               P::::P                    T:::::T          I::::I  O:::::O     O:::::ON::::::N    N::::::::::N "
+# 	@echo "  I::::I  N::::::N     N:::::::::N C:::::C       CCCCCC  E:::::E       EEEEEE  P::::P                    T:::::T          I::::I  O::::::O   O::::::ON::::::N     N:::::::::N"
+# 	@echo "II::::::IIN::::::N      N::::::::N  C:::::CCCCCCCC::::CEE::::::EEEEEEEE:::::EPP::::::PP                TT:::::::TT      II::::::IIO:::::::OOO:::::::ON::::::N      N::::::::N"
+# 	@echo "I::::::::IN::::::N       N:::::::N   CC:::::::::::::::CE::::::::::::::::::::EP::::::::P                T:::::::::T      I::::::::I OO:::::::::::::OO N::::::N       N:::::::N"
+# 	@echo "I::::::::IN::::::N        N::::::N     CCC::::::::::::CE::::::::::::::::::::EP::::::::P                T:::::::::T      I::::::::I   OO:::::::::OO   N::::::N        N::::::N"
+# 	@echo "IIIIIIIIIINNNNNNNN         NNNNNNN        CCCCCCCCCCCCCEEEEEEEEEEEEEEEEEEEEEEPPPPPPPPPP                TTTTTTTTTTT      IIIIIIIIII     OOOOOOOOO     NNNNNNNN         NNNNNNN"
 
 .PHONY: all build up down prune clean help purge re re-fresh
