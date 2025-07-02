@@ -15,10 +15,10 @@ done
 echo -e "${CYAN}MariaDB is ready. Proceeding with WordPress setup...${NC}"
 
 # Main script starts here
-cd /var/www/html
-curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-chmod +x wp-cli.phar
-mv wp-cli.phar /usr/local/bin/wp
+# cd /var/www/html
+# curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+# chmod +x wp-cli.phar
+# mv wp-cli.phar /usr/local/bin/wp
 
 # Check that the admin user does not contain forbidden substrings
 if echo "${WORDPRESS_ADMIN_USER}" | grep -i -qE "admin|administrator"; then
