@@ -6,3 +6,4 @@ secrets/
 generate_secrets.sh
 .env
 run_.sh
+init_.sql
