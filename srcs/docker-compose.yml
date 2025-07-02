@@ -31,6 +31,8 @@ services:
         context: requirements/wordpress
       env_file:
         - .env
+      expose:
+        - "9000"
       volumes:
         - wp_data:/var/www/html
       networks:

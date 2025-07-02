@@ -58,8 +58,9 @@ fi
 
 if ! wp core is-installed --path=/var/www/html --allow-root; then
     echo -e "${CYAN}Installing WordPress...${NC}"
+    # ./wp-cli.phar core download --allow-root #TODO: check if this is needed
     wp core install --path=/var/www/html \
-        --url=https://${DOMAIN_NAME} \
+        --url=http://${DOMAIN_NAME} \
         --title="${WORDPRESS_TITLE}" \
         --admin_user="${WORDPRESS_ADMIN_USER}" \
         --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \

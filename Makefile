@@ -36,6 +36,8 @@ prune:
 remove_volumes:
 	@docker volume rm $(WP_DATA) || true
 	@echo "${GREEN}Volume ${WP_DATA} has been removed.${NC}"
+	@docker volume rm $(DATABASE) || true
+	@echo "${GREEN}Volume ${DATABASE} has been removed.${NC}"
 
 clean: down prune remove_volumes
 	@echo "${GREEN}All containers and volumes have been removed.${NC}"
