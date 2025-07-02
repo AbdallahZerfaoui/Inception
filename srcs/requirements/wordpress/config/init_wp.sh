@@ -76,5 +76,3 @@ if ! wp core is-installed --path=/var/www/html --allow-root; then
 else
     echo -e "${CYAN}WordPress is already installed. Skipping setup.${NC}"
 fi
-
-php-fpm8.2 -F

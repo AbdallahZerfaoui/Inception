@@ -13,9 +13,8 @@ COPY config/www.conf /etc/php/8.2/fpm/pool.d/www.conf
 COPY config/download_wp.sh .
 COPY config/handle_wp-cli.sh .
 COPY config/init_wp.sh .
+COPY config/run.sh .
 
-RUN chmod +x init_wp.sh download_wp.sh handle_wp-cli.sh
-RUN ./download_wp.sh
-RUN ./handle_wp-cli.sh
+RUN chmod +x init_wp.sh download_wp.sh handle_wp-cli.sh run.sh
 
-CMD ["./init_wp.sh"]
+CMD ["./run.sh"]
