@@ -9,8 +9,8 @@ CYAN=\033[0;36m
 NC=\033[0m
 
 #Volumes 
-WP_DATA=/home/abdallah/data/wp_data
-DATABASE=/home/abdallah/data/database
+WP_DATA=/home/azerfaou/data/wp_data
+DATABASE=/home/azerfaou/data/database
 
 # Paths
 COMPOSE_CMD = docker compose -f srcs/docker-compose.yml
