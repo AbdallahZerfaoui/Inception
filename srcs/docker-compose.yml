@@ -18,7 +18,7 @@ services:
       build:
         context: requirements/nginx
       ports:
-        - "80:80"
+        - "443:443"
       volumes:
         - wp_data:/var/www/html
       networks:
