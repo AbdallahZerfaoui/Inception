@@ -29,6 +29,7 @@ help: ## Show this detailed help message
 	@echo ""
 	@echo " \033[1mUsage:\033[0m"
 	@echo "   make [TARGET]"
+	@echo "   make logs/bash s=<service_name>"
 	@echo ""
 	@echo " \033[1mProject Management Targets:\033[0m"
 	@echo "   \033[0;36mbuild\033[0m                  Builds or rebuilds the Docker images from their Dockerfiles."
@@ -69,9 +70,9 @@ help: ## Show this detailed help message
 	@echo "                          \033[1mUsage:\033[0m make logs s=<service_name>  \033[2m(e.g., make logs s=mariadb)\033[0m"
 	@echo "                          \033[2m(Defaults to 'wordpress' if 's' is not provided)\033[0m"
 	@echo ""
-	@echo "   \033[0;36mshell\033[0m                  Access an interactive bash shell inside a running service."
+	@echo "   \033[0;36mbash\033[0m                  Access an interactive bash shell inside a running service."
 	@echo "                          This is essential for debugging, running commands, or inspecting files."
-	@echo "                          \033[1mUsage:\033[0m make shell s=<service_name> \033[2m(e.g., make shell s=nginx)\033[0m"
+	@echo "                          \033[1mUsage:\033[0m make bash s=<service_name> \033[2m(e.g., make bash s=nginx)\033[0m"
 	@echo "                          \033[2m(Defaults to 'wordpress' if 's' is not provided)\033[0m"
 # ==============================================================================
 # Main Targets

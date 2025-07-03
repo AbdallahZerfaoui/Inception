@@ -20,9 +20,10 @@ services:
       ports:
         - "443:443"
       volumes:
-        - wp_data:/var/www/html
+        - wp_data:/var/www/html:ro #TODO: are you sure about this?
       networks:
         - inception
+      restart: always
 
     wordpress:
       container_name: wordpress

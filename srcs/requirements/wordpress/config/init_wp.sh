@@ -44,7 +44,7 @@ fi
 if ! wp core is-installed --path=/var/www/html --allow-root; then
     echo -e "${CYAN}Installing WordPress...${NC}"
     wp core install --path=/var/www/html \
-        --url=http://${DOMAIN_NAME} \
+        --url=https://${DOMAIN_NAME} \
         --title="${WORDPRESS_TITLE}" \
         --admin_user="${WORDPRESS_ADMIN_USER}" \
         --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
@@ -60,6 +60,11 @@ if ! wp core is-installed --path=/var/www/html --allow-root; then
 else
     echo -e "${CYAN}WordPress is already installed. Skipping setup.${NC}"
 fi
+
+
+# Install the theme. If it's already present, this command will do nothing.
+echo "Setting the default theme to Twenty Twenty-Four..."
+wp theme install twentytwentyfour --path=/var/www/html --activate --allow-root
 
 # Run the PHP FastCGI Process Manager
 echo -e "${CYAN}Starting PHP-FPM...${NC}"
