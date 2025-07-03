@@ -1,4 +1,16 @@
+# This block handles HTTP traffic and redirects it to HTTPS
+server {
+    listen 80;
+    listen [::]:80;
 
+    # This can be set to your domain or a wildcard
+    server_name ${DOMAIN_NAME}; 
+
+    # Return a 301 Permanent Redirect to the HTTPS version of the same request
+    return 301 https://$host$request_uri;
+}
+
+# This block handles HTTPS traffic
 server {
 	# listen 80 default_server;
 	# listen [::]:80 default_server;
@@ -26,7 +38,7 @@ server {
 		# try_files $uri $uri/ =404;
 		try_files $uri $uri/ /index.php;
 	}
-	
+
 	location ~* \.(jpg|jpeg|gif|png|svg|ico|css|js)$ {
         try_files $uri =404;
         expires 7d; # Tell browsers to cache these files for 7 days
